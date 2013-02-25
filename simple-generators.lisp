@@ -64,10 +64,8 @@
     (nreverse result)))
 
 (define-generator-function fold-g (f s gen)
-  (let ((s1 s)
-	r)
+  (let ((r s))
     (run-generator gen
 		   (lambda (x)
-		     (setf r (funcall f s1 x))
-		     (setf s1 r)))
+		     (setf r (funcall f r x))))
     r))

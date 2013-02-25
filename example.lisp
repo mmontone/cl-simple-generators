@@ -20,3 +20,14 @@
 
 ;; Foldg
 (fold-g #'+ 0 (list-generator* (list 1 2 3 4 5)))
+
+;; List comprehension example
+;; [(x,y)| x <- [1..15] | y <- x/2]
+
+(let ((gen (lambda ()
+	     (loop for i from 1 to 15
+		do (yield i)))))
+  (generator-list (compose-g* (lambda (x)
+				(let ((y (/ x 2)))
+				  (cons x y)))
+			      gen)))
