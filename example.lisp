@@ -31,3 +31,23 @@
 				(let ((y (/ x 2)))
 				  (cons x y)))
 			      gen)))
+
+;; File reading by character
+(run-generator (lambda () (file-g "example.lisp"))
+	       #'print)
+
+;; File reading by line
+(run-generator (lambda ()
+		 (lines-g
+		  (lambda ()
+		    (file-g "example.lisp"))))
+	       #'print)
+
+;; Better looking printing
+(run-generator (lambda ()
+		 (lines-g
+		  (lambda ()
+		    (file-g "example.lisp"))))
+	       (lambda (x)
+		 (print
+		  (concatenate 'string x))))

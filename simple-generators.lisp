@@ -69,3 +69,23 @@
 		   (lambda (x)
 		     (setf r (funcall f r x))))
     r))
+
+;; File reading, character after character
+(defun file-g (filepath) 
+  (with-open-file (file filepath :direction :input)
+    (let ((char (read-char file nil)))
+      (loop while char
+	do (progn
+	     (yield char)
+	     (setf char (read-char file nil)))))))
+
+;; Transform a producer of chars to a producer of lines
+(defun lines-g (gen)
+  (let (line)
+    (with-generator gen (char)
+      (if (equalp char #\Newline)
+	  (progn
+	    (yield (reverse line))
+	    (setf line nil))
+	  (push char line)))))		  
+    
